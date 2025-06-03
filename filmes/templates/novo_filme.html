@@ -1,17 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="POST" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" necessário para upload de arquivos -->
-        {% csrf_token %}
-    
-        <table>      
+  <h2>Cadastro de Filme</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <br>
+    <input type="submit" value="Adicionar Filme" class="btn btn-primary">
+  </form>
+{% endblock %}
 
-            {{ form.as_table }}   
+{% block extra_scripts %}
 
-        </table>  
-        <br>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <input type="submit" value="Adicionar Filme" class="btn btn-primary"> 
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    </form>
-{% endblock %}    
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#autor_id').select2({
+        placeholder: 'Selecione os atores',
+        allowClear: true,
+        width: '100%'
+      });
+    });
+  </script>
+{% endblock %}

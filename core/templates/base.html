@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
+
   <style>
     body {
         font-family: 'Open Sans', sans-serif;
@@ -96,5 +97,7 @@
   <footer>
     <p>&copy; ETEC Elias Nechar - Curso Tecnico DS</p>
   </footer>
+  {% block extra_scripts %}{% endblock %}
+
 </body>
 </html>

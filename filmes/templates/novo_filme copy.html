@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data"> <!-- enctype="multipart/form-data" necessário para upload de arquivos -->
+        {% csrf_token %}
+    
+        <table>      
+
+            {{ form.as_table }}   
+
+        </table>  
+        <br>
+
+        <input type="submit" value="Adicionar Filme" class="btn btn-primary"> 
+
+    </form>
+{% endblock %}    
