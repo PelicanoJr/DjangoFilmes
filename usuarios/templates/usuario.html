@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+        <div class="form-group">
+            {{ user_form.username.errors }}
+            <label>Nome de Usuário:</label> 
+            {{ user_form.username }}<br>
+        </div>
+        <div class="form-group">
+            {{ user_form.password1.errors }}
+            <label>Senha:</label> 
+            {{ user_form.password1 }}<br>    
+        </div>
+        <div class="form-group">
+            {{ user_form.password2.errors }}
+            <label>Confirmação de Senha:</label> 
+            {{ user_form.password2 }}<br>
+        </div>      
+
+        <input type="submit" value="Cadastrar Usuário" class="btn btn-primary">
+
+    </form>
+
+{% endblock %}

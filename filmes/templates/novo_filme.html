@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style>
+ .btn {
+      display: inline-block;
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      margin: 0 10px;
+    }
+
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+    }    
+</style>
+  <h2>Cadastro de Filme</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <br>   
+
+    <div class="buttons-container">
+      <input type="submit" value="Adicionar Filme" class="btn btn-primary">
+      <a href="{% url 'filmes_list' %}" class="btn btn-neutral">Voltar</a>
+    </div>
+
+
+
+  </form>
+{% endblock %}
