@@ -1,14 +1,17 @@
 from django import forms
 from filmes.models import Filme  
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
   
 class FilmesModelForm(forms.ModelForm):
     class Meta:
         model = Filme
         fields = '__all__'
-        widgets = {
-        'atores': forms.SelectMultiple(attrs={'size': 10}),  }
-        
+
+    atores = forms.ModelMultipleChoiceField(
+        queryset=Filme._meta.get_field('atores').related_model.objects.all(),
+        widget=FilteredSelectMultiple('Atores', is_stacked=False)
+    )
     
     def clean_ano(self):
         ano = self.cleaned_data.get('ano')

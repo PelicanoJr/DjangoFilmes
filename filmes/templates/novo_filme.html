@@ -1,85 +1,161 @@
 {% extends "base.html" %}
 
-
 {% block content %}
+
+{% load static %}
+
 <style>
- .btn {
-      display: inline-block;
-      background-color: #0096c7;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-      margin: 0 10px;
+    .btn {
+        display: inline-block;
+        background-color: #0096c7;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin: 0 10px;
     }
 
     a {
-      font-size: 18px;
-      color: #333;
-      text-decoration: none;
-    }  
-    
+        font-size: 18px;
+        color: #333;
+        text-decoration: none;
+    }
+
     .form-container {
-        max-width: 800px;
+        max-width: 800px; /* Você pode precisar ajustar esta largura se o widget for muito grande */
         margin: 0 auto;
         padding: 20px;
     }
+
+    /* Adicione estas regras CSS para simular o layout do admin */
+    .form-row {
+        margin-bottom: 15px; /* Espaçamento entre as linhas do formulário */
+        overflow: hidden; /* Garante que os floats dentro sejam limpos */
+        padding: 5px 0; /* Pequeno padding interno */
+    }
+
+    .form-row label {
+        display: block; /* Faz a label ocupar sua própria linha */
+        margin-bottom: 5px; /* Espaçamento entre a label e o campo */
+        font-weight: bold; /* Deixa a label em negrito, como no admin */
+    }
+
+    /* Estilos para o widget FilteredSelectMultiple (o .selector) */
+    .selector {
+        display: flex; /* Usa flexbox para alinhar as duas caixas lado a lado */
+        justify-content: space-between; /* Espaça as caixas e o seletor central */
+        align-items: flex-start; /* Alinha os itens no topo */
+        width: 100%; /* Ocupa a largura total do seu container */
+    }
+
+    .selector .selector-available,
+    .selector .selector-chosen {
+        flex: 1; /* Faz com que as caixas de seleção ocupem espaço igual */
+        margin: 0 5px; /* Espaçamento entre as caixas */
+    }
+
+    .selector .selector-chooser {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0 10px; /* Espaçamento para o seletor central */
+    }
+
+    /* Ajuste para os campos de texto e select padrão */
+    input[type="text"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box; /* Inclui padding e borda na largura total */
+    }
+
+    /* Ajuste para o select de Gênero */
+    .form-row.field-genero select {
+        width: auto; /* Permite que o select de gênero tenha largura automática */
+    }
+
 </style>
-<!-- CSS da Dual Listbox -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-duallistbox/4.0.2/bootstrap-duallistbox.min.css">
 
-<!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{# Inclua o CSS do widget explicitamente #}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}">
 
-<!-- JS da Dual Listbox -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-duallistbox/4.0.2/jquery.bootstrap-duallistbox.min.js"></script>
+{# ORDEM DE CARREGAMENTO CORRETA E COMPLETA #}
+<script src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+{# 1. Carregue o catálogo de internacionalização PRIMEIRO. Isso define 'interpolate'. #}
+<script src="{% url 'javascript-catalog' %}"></script>
+
+{# 2. Agora carregue os scripts do admin que DEPENDEM de 'interpolate' e jQuery. #}
+<script src="{% static 'admin/js/core.js' %}"></script>
+<script src="{% static 'admin/js/SelectBox.js' %}"></script>
+<script src="{% static 'admin/js/SelectFilter2.js' %}"></script>
+
 
 <h2>Cadastro de Filme</h2>
+
 <div class="form-container">
-  <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <label for="id_titulo">Título:</label><br>
-      {{ form.titulo }}<br><br>
+        {# Envolva cada campo em uma div.form-row #}
+        <div class="form-row field-titulo">
+            <label for="id_titulo">Título:</label>
+            {{ form.titulo }}
+        </div>
 
-      <label for="id_sinopse">Sinopse:</label><br>
-      {{ form.sinopse }}<br><br>
+        <div class="form-row field-sinopse">
+            <label for="id_sinopse">Sinopse:</label>
+            {{ form.sinopse }}
+        </div>
 
-      <label for="id_duracao">Duração:</label><br>
-      {{ form.duracao }}<br><br>
+        <div class="form-row field-duracao">
+            <label for="id_duracao">Duração:</label>
+            {{ form.duracao }}
+        </div>
 
-      <label for="id_ano">Ano:</label><br>
-      {{ form.ano }}<br><br>
+        <div class="form-row field-ano">
+            <label for="id_ano">Ano:</label>
+            {{ form.ano }}
+        </div>
 
-      <label for="id_genero">Gênero:</label><br>
-      {{ form.genero }}<br><br>
+        <div class="form-row field-genero">
+            <label for="id_genero">Gênero:</label>
+            {{ form.genero }}
+        </div>
 
-      <label for="id_diretor">Diretor:</label><br>
-      {{ form.diretor }}<br><br>
+        <div class="form-row field-diretor">
+            <label for="id_diretor">Diretor:</label>
+            {{ form.diretor }}
+        </div>
 
-      <label for="id_atores">Atores:</label><br>
-      {{ form.atores }}<br><br>
+        {# O campo 'atores' também em uma div.form-row #}
+        <div class="form-row field-atores">
+            <label for="id_atores">Atores:</label>
+            {{ form.atores }}
+        </div>
 
-      <input type="submit" value="Adicionar Filme" class="btn btn-primary">
-      <a href="{% url 'filmes_list' %}" class="btn btn-neutral">Voltar</a>
-  </form>
+        <input type="submit" value="Adicionar Filme" class="btn btn-primary">
+        <a href="{% url 'filmes_list' %}" class="btn btn-neutral">Voltar</a>
+    </form>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#id_atores').bootstrapDualListbox({
-            nonSelectedListLabel: 'Atores disponíveis',
-            selectedListLabel: 'Atores escolhidos',
-            preserveSelectionOnMove: 'moved',
-            moveOnSelect: false,
-            infoText: 'Mostrando {0} atores',
-            filterPlaceHolder: 'Filtrar',
-            infoTextEmpty: 'Nenhum ator disponível',
+<script type="text/javascript">
+    (function($) {
+        $(document).ready(function() {
+            // Inicializa o widget FilteredSelectMultiple para o campo 'atores'
+            SelectFilter2.init("id_atores", "atores", false);
         });
-    });
+    })(django.jQuery);
 </script>
 
 {% endblock %}
+
+
