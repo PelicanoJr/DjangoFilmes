@@ -7,7 +7,7 @@ class FilmesModelForm(forms.ModelForm):
         model = Filme
         fields = '__all__'
         widgets = {
-            'atores': forms.CheckboxSelectMultiple()   }
+        'atores': forms.SelectMultiple(attrs={'size': 10}),  }
         
     
     def clean_ano(self):

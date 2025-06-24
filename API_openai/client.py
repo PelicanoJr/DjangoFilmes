@@ -1,6 +1,7 @@
 import openai
+from django.conf import settings
 
-openai.api_key = "sua chave_api_aqui"
+openai.api_key = (settings.OPENAI_API_KEY) 
 
 def get_filme_sinopse(titulo, ano, diretor, atores):
     prompt = f"Crie uma sinopse em apenas 200 caracteres para o filme '{titulo}' do ano {ano}, dirigido por {diretor} e estrelado por {atores}."
